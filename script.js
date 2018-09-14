@@ -135,7 +135,41 @@ function buildList(jsondata) {
             student.splitName(fullName);
             //student.setHouse(house);
             student.house = house;
+
+            // assign this student a unique id
+            student.id = generateUUID();
             allStudents.push(student);
+        }
+    }
+}
+
+// from: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript/8809472#8809472
+function generateUUID() { // Public Domain/MIT
+    var d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
+function deleteStudent( studentId ) {
+    // find the index of the student with studentId
+
+    const index = allStudents.findIndex( findStudent );
+    console.log("found index: " + index);
+
+    allStudents.splice(index,1);
+
+    // function that returns true when student.id == studentId
+    function findStudent( student ) {
+        if( student.id === studentId ) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
